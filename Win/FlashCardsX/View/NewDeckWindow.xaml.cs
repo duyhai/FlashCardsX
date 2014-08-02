@@ -36,7 +36,7 @@ namespace FlashCardsX.View
                 Settings.Instance[Settings.LocalPath] + "\\" +
                 deck.Name + "_" +
                 deck.TopicA + "_" +
-                deck.TopicB + "_0.xml"))
+                deck.TopicB + ".xml"))
             {
                 serializer.WriteObject(sw, deck);
                 sw.Close();
