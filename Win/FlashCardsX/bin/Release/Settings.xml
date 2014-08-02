@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dictionary>
+  <item>
+    <key>
+      <string>LocalPath</string>
+    </key>
+    <value>
+      <string>Decks\</string>
+    </value>
+  </item>
+  <item>
+    <key>
+      <string>PdfWidth</string>
+    </key>
+    <value>
+      <string>300</string>
+    </value>
+  </item>
+  <item>
+    <key>
+      <string>PdfHeight</string>
+    </key>
+    <value>
+      <string>300</string>
+    </value>
+  </item>
+  <item>
+    <key>
+      <string>LastSync</string>
+    </key>
+    <value>
+      <string>0001-01-01T00:00:00</string>
+    </value>
+  </item>
+  <item>
+    <key>
+      <string>SkyDrive</string>
+    </key>
+    <value>
+      <string>0</string>
+    </value>
+  </item>
+  <item>
+    <key>
+      <string>Dropbox</string>
+    </key>
+    <value>
+      <string>0</string>
+    </value>
+  </item>
+  <item>
+    <key>
+      <string>SkyDriveUserId</string>
+    </key>
+    <value>
+      <string />
+    </value>
+  </item>
+  <item>
+    <key>
+      <string>SkyDriveRefreshToken</string>
+    </key>
+    <value>
+      <string />
+    </value>
+  </item>
+  <item>
+    <key>
+      <string>DropboxUserToken</string>
+    </key>
+    <value>
+      <string d4p1:nil="true" xmlns:d4p1="http://www.w3.org/2001/XMLSchema-instance" />
+    </value>
+  </item>
+  <item>
+    <key>
+      <string>DropboxUserSecret</string>
+    </key>
+    <value>
+      <string d4p1:nil="true" xmlns:d4p1="http://www.w3.org/2001/XMLSchema-instance" />
+    </value>
+  </item>
+</dictionary>

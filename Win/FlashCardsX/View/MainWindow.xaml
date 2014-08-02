@@ -1,0 +1,100 @@
+﻿<Window x:Class="FlashCardsX.View.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="FlashCardsX" Height="375" Width="700" ResizeMode="NoResize">
+    <Window.InputBindings>
+        <KeyBinding Key="N" Modifiers="Ctrl" Command="{Binding Path=NewDeckCommand}" />
+        <KeyBinding Key="V" Modifiers="Ctrl" Command="{Binding Path=ViewDeckCommand}" />
+        <KeyBinding Key="D" Modifiers="Ctrl" Command="{Binding Path=DeleteDeckCommand}" />
+        <KeyBinding Key="T" Modifiers="Ctrl" Command="{Binding Path=StartTestCommand}" />
+        <KeyBinding Key="E" Modifiers="Ctrl" Command="{Binding Path=ExportPdfCommand}" />
+        <KeyBinding Key="S" Modifiers="Ctrl" Command="{Binding Path=SettingsCommand}" />
+    </Window.InputBindings>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="166"/>
+            </Grid.ColumnDefinitions>
+            <DockPanel Grid.Column="0">
+                <ScrollViewer>
+                    <DataGrid Name="DeckListDataGrid" AutoGenerateColumns="False" IsReadOnly="True"
+                               SelectionMode="Single" SelectedIndex="{Binding Path=SelectedDeck, Mode=TwoWay}" 
+                              ItemsSource="{Binding Path=DeckList}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Deck Name" Binding="{Binding Name}"/>
+                            <DataGridTextColumn Header="Topic A" Binding="{Binding TopicA}"/>
+                            <DataGridTextColumn Header="Topic B" Binding="{Binding TopicB}"/>
+                            <DataGridTextColumn Header="Size" Binding="{Binding Size}"/>
+                            <DataGridTextColumn Width="*" Header="Last Modified" Binding="{Binding LastMod}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </ScrollViewer>
+            </DockPanel>
+            <StackPanel Grid.Column="1">
+                <Button Name="NewDeckButton" Command="{Binding Path=NewDeckCommand}">
+                    <TextBlock><Underline>N</Underline>ew Deck</TextBlock>
+                </Button>
+                <Button Name="ViewDeckButton" Command="{Binding Path=ViewDeckCommand}">
+                    <TextBlock><Underline>V</Underline>iew Deck</TextBlock>
+                </Button>
+                <Button Name="DeleteButton" Command="{Binding Path=DeleteDeckCommand}">
+                    <TextBlock><Underline>D</Underline>elete Deck</TextBlock>
+                </Button>
+                <Button Name="StartButton" Command="{Binding Path=StartTestCommand}">
+                    <TextBlock>Start <Underline>T</Underline>esting</TextBlock>
+                </Button>
+                <Button Name="PdfButton" Command="{Binding Path=ExportPdfCommand}">
+                    <TextBlock><Underline>E</Underline>xport to PDF</TextBlock>
+                </Button>
+                <TextBlock Margin="4" FontWeight="Bold">
+                    Difficulty:
+                </TextBlock>
+                <ComboBox Name="ComparatorComboBox" SelectedIndex="{Binding Path=Comparator}">
+                    <ComboBoxItem>At Least</ComboBoxItem>
+                    <ComboBoxItem>At Most</ComboBoxItem>
+                </ComboBox>
+                <ComboBox Name="DifficultyComboBox" SelectedIndex="{Binding Path=Difficulty}">
+                    <ComboBoxItem>Easy</ComboBoxItem>
+                    <ComboBoxItem>Medium</ComboBoxItem>
+                    <ComboBoxItem>Hard</ComboBoxItem>
+                </ComboBox>
+                <CheckBox Name="FlipCheckBox" Margin="5" IsChecked="{Binding Path=Flipped, Mode=OneWayToSource}">
+                    Flipped
+                </CheckBox>
+                <CheckBox Name="ShuffleCheckBox" Margin="5" IsChecked="{Binding Path=Shuffled, Mode=OneWayToSource}">
+                    Shuffled
+                </CheckBox>
+                <Button Name="OptionsButton" Command="{Binding Path=OptionsCommand}">
+                    <TextBlock><Underline>S</Underline>ettings</TextBlock>
+                </Button>
+                <TextBlock Margin="4">Status</TextBlock>
+                <TextBlock Margin="4" Foreground="{Binding Path=SkyDriveStatus}" Name="SkyDriveLabel">OneDrive</TextBlock>
+                <TextBlock Margin="4" Foreground="{Binding Path=DropboxStatus}" Name="DropboxLabel">Dropbox</TextBlock>
+            </StackPanel>
+        </Grid>
+        <StatusBar Grid.Row="1" BorderBrush="Black">
+            <StatusBarItem>
+                <TextBlock Name="ItemsLoadedLabel" Text="{Binding Path=CountText}"/>
+            </StatusBarItem>
+            <StatusBarItem>
+                <TextBlock Name="HelpLabel" 
+                       Text="{Binding Path=HelpText, NotifyOnTargetUpdated=True, Mode=TwoWay}">
+                    <TextBlock.Triggers>
+                        <EventTrigger RoutedEvent="Binding.TargetUpdated">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:3"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </TextBlock.Triggers>
+                </TextBlock>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>

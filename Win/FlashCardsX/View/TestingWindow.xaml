@@ -1,0 +1,70 @@
+﻿<Window x:Class="FlashCardsX.View.TestingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{Binding Path=DeckName}" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
+    <Window.InputBindings>
+        <KeyBinding Key="C" Modifiers="Ctrl" Command="{Binding Path=CorrectAnswerCommand}" />
+        <KeyBinding Key="W" Modifiers="Ctrl" Command="{Binding Path=WrongAnswerCommand}" />
+        <KeyBinding Key="F" Modifiers="Ctrl" Command="{Binding Path=FlipCommand}" />
+        <KeyBinding Key="RightShift" Modifiers="Ctrl" Command="{Binding Path=CorrectAnswerCommand}" />
+        <KeyBinding Key="LeftShift" Modifiers="Ctrl" Command="{Binding Path=WrongAnswerCommand}" />
+        <KeyBinding Key="Space" Modifiers="Ctrl" Command="{Binding Path=FlipCommand}" />
+    </Window.InputBindings>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60" />
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Border BorderBrush="Black" BorderThickness="0,0,0,2">
+            <DockPanel LastChildFill="False">
+                <Border Width="150" Padding="4" DockPanel.Dock="Left">
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock>Cards:&#160;</TextBlock>
+                            <TextBlock Text="{Binding Path=CardNum}"/>
+                            <TextBlock>/</TextBlock>
+                            <TextBlock Text="{Binding Path=AllCard}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock>Difficulty:&#160;</TextBlock>
+                            <TextBlock Text="{Binding Path=Difficulty}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock>Correct:&#160;</TextBlock>
+                            <TextBlock Text="{Binding Path=Correct}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+                <Button Height="20" Command="{Binding Path=FlipCommand}" DockPanel.Dock="Bottom">
+                    <TextBlock>
+                <Underline>F</Underline>lip
+                    </TextBlock>
+                </Button>
+                <Button Width="75" Command="{Binding Path=CorrectAnswerCommand}" DockPanel.Dock="Right">
+                    <TextBlock>
+                    <Underline>C</Underline>orrect!
+                    </TextBlock>
+                </Button>
+                <Button Width="75" Command="{Binding Path=WrongAnswerCommand}" DockPanel.Dock="Right">
+                    <TextBlock>
+                    <Underline>W</Underline>rong!
+                    </TextBlock>
+                </Button>
+            </DockPanel>
+        </Border>
+        <DockPanel Grid.Row="2">
+            <ScrollViewer Height="300" Width="300" HorizontalScrollBarVisibility="Auto" 
+                          VerticalScrollBarVisibility="Auto"
+                          Visibility="{Binding Path=AVisibility}">
+                <ContentPresenter Content="{Binding Path=TopicAImage}"/>
+            </ScrollViewer>
+            <ScrollViewer Height="300" Width="300" HorizontalScrollBarVisibility="Auto" 
+                          VerticalScrollBarVisibility="Auto"
+                          Visibility="{Binding Path=BVisibility}">
+                <ContentPresenter Content="{Binding Path=TopicBImage}"/>
+            </ScrollViewer>
+        </DockPanel>
+    </Grid>
+</Window>

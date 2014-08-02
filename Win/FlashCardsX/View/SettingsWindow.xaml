@@ -1,0 +1,74 @@
+﻿<Window x:Class="FlashCardsX.View.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Settings" Width="300" ResizeMode="NoResize" Topmost="True" SizeToContent="Height" 
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <RoutedUICommand x:Key="ExitCommand"/>
+    </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="{StaticResource ExitCommand}" Executed="CommandBinding_OnExecuted" />
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Key="E" Modifiers="Ctrl" Command="{StaticResource ExitCommand}" />
+        <KeyBinding Key="S" Modifiers="Ctrl" Command="{Binding Path=SaveCommand}" />
+    </Window.InputBindings>
+    <Grid>
+        <StackPanel Name="SettingsStackPanel" Margin="10" VerticalAlignment="Center">
+            <TextBlock Margin="4">Local Path</TextBlock>
+            <TextBox Name="LocalPathTextBox" Text="{Binding LocalPath, Mode=TwoWay}"/>
+            <TextBlock Margin="4">PDF Page Size</TextBlock>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Margin="4">W: </TextBlock>
+                <TextBox VerticalContentAlignment="Center" Width="100" Text="{Binding Path=PdfWidth}" PreviewTextInput="UIElement_OnPreviewTextInput"/>
+                <TextBlock Margin="4">x</TextBlock>
+                <TextBlock Margin="4">H:</TextBlock>
+                <TextBox VerticalContentAlignment="Center" Width="100" Text="{Binding Path=PdfHeight}" PreviewTextInput="UIElement_OnPreviewTextInput"/>
+            </StackPanel>
+            <CheckBox Margin="0, 5, 0, 0" IsChecked="{Binding SkyDrive, Mode=TwoWay}" 
+                      Name="SkyDriveCheckBox">
+                OneDrive</CheckBox>
+            <TextBlock Margin="4">User</TextBlock>
+            <TextBox IsEnabled="False" Name="SkyDriveUserTextBox" Text="{Binding Path=SkyDriveUser}"/>
+            <Button Name="SkyDriveSignInButton" Margin="0, 5, 0, 0" 
+                    IsEnabled="{Binding IsChecked, ElementName=SkyDriveCheckBox}"
+                    Command="{Binding Path=SkyDriveSignInCommand}"
+                    CommandParameter ="{Binding ElementName=SkyDriveWebBrowser}">
+                <TextBlock Text="{Binding Path=SkyDriveSignInText}"/>
+            </Button>
+            <WebBrowser Height="250" Name="SkyDriveWebBrowser" Visibility="Collapsed"/>
+            <CheckBox Name="DropboxCheckBox" Margin="0, 5, 0, 0" IsChecked="{Binding Dropbox, Mode=TwoWay}">
+                Dropbox</CheckBox>
+            <TextBlock Margin="4">User</TextBlock>
+            <TextBox IsEnabled="False" Name="DropboxUserTextBox" Text="{Binding Path=DropboxUser}"/>
+            
+            <Button Name="DropboxSignInButton" Margin="0, 5, 0, 0" 
+                    IsEnabled="{Binding IsChecked, ElementName=DropboxCheckBox}"
+                    Command="{Binding Path=DropboxSignInCommand}"  
+                    CommandParameter ="{Binding ElementName=DropboxWebBrowser}">
+                <TextBlock Text="{Binding Path=DropboxSignInText}"/>
+            </Button>
+            <WebBrowser Height="250" Name="DropboxWebBrowser" Visibility="Collapsed" />
+            <TextBlock Name="StatusTextBlock" Text="{Binding Status, NotifyOnTargetUpdated=True, Mode=TwoWay}">
+                <TextBlock.Triggers>
+                    <EventTrigger RoutedEvent="Binding.TargetUpdated">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:3"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </TextBlock.Triggers>
+            </TextBlock>
+            <Button Margin="0, 5, 0, 0" Name="SaveButton" Command="{Binding Path=SaveCommand}">
+                <TextBlock>
+                    <Underline>S</Underline>ave
+                </TextBlock>
+            </Button>
+            <Button Name="ExitButton" Command="{StaticResource ExitCommand}">
+                <TextBlock>
+                    <Underline>E</Underline>xit
+                </TextBlock></Button>
+        </StackPanel>
+    </Grid>
+</Window>
