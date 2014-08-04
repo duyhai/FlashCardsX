@@ -166,6 +166,7 @@ namespace FlashCardsX.ViewModel
 
         #region SkyDrive
 
+        // Apply deletion to SkyDrive files
         private async void SyncDeletionWithSkyDrive(string delfile)
         {
             if (Settings.Instance.SkyDriveClient != null && Settings.Instance[Settings.SkyDrive] == "1")
@@ -221,6 +222,7 @@ namespace FlashCardsX.ViewModel
             }
         }
 
+        // Setting up client for SkyDrive connection
         private async void ConnectToSkyDrive()
         {
             if (Settings.Instance[Settings.SkyDrive] == "0")
@@ -284,7 +286,7 @@ namespace FlashCardsX.ViewModel
         /// <summary>
         /// Copies the contents of input to output. Doesn't close either stream.
         /// </summary>
-        private void CopyStream(Stream input, Stream output)
+        private static void CopyStream(Stream input, Stream output)
         {
             var buffer = new byte[8 * 1024];
             int len;
@@ -416,6 +418,7 @@ namespace FlashCardsX.ViewModel
 
         #region Dropbox
 
+        // Apply deletion to Dropbox files
         private void SyncDeletionWithDropbox(string delfile)
         {
             var client = Settings.Instance.DropboxClient;
@@ -463,6 +466,7 @@ namespace FlashCardsX.ViewModel
             }
         }
 
+        // Setting up client for Dropbox connection
         private void ConnectToDropbox()
         {
             if (Settings.Instance[Settings.Dropbox] == "0")
@@ -593,15 +597,11 @@ namespace FlashCardsX.ViewModel
                     }
 
                     // Downloading files
-                    foreach (var file in files)
+                    foreach (var file in from file in files where !(file.Name).EndsWith(".log") let toDl = localFiles.All(
+                        localFile =>
+                            file.Name != Path.GetFileName(localFile) ||
+                            changelog[file.Name] > Directory.GetLastWriteTimeUtc(localFile)) where toDl select file)
                     {
-                        if ((file.Name).EndsWith(".log")) continue;
-                        var toDl =
-                            localFiles.All(
-                                localFile =>
-                                    file.Name != Path.GetFileName(localFile) ||
-                                    changelog[file.Name] > Directory.GetLastWriteTimeUtc(localFile));
-                        if (!toDl) continue;
                         try
                         {
                             var dlResult = client.GetFile(file.Path);
@@ -649,6 +649,7 @@ namespace FlashCardsX.ViewModel
             }
         }
 
+        // Get path for selected deck
         private string GetDeckPath(int selectedDeck)
         {
             var item = DeckList[selectedDeck];
@@ -658,6 +659,7 @@ namespace FlashCardsX.ViewModel
                        item.TopicB + ".xml";
         }
 
+        // Open Card Edit Window
         private void ViewDeck()
         {
             var deck = LoadDeck();
@@ -666,6 +668,7 @@ namespace FlashCardsX.ViewModel
             vd.Show();
         }
 
+        // Open Testing Window
         private void StartTest()
         {
             var deck = LoadDeck();
@@ -675,6 +678,7 @@ namespace FlashCardsX.ViewModel
             td.Show();
         }
 
+        // Apply filters to deck
         private Deck PrepareDeckForTest(Deck deck)
         {
             if (deck == null) return null;
@@ -695,6 +699,7 @@ namespace FlashCardsX.ViewModel
             return null;
         }
 
+        // Delete deck
         private void DeleteDeck()
         {
             var delfile = GetDeckPath(SelectedDeck);
@@ -704,7 +709,8 @@ namespace FlashCardsX.ViewModel
             LoadDataGrid();
         }
 
-        private SerializableDictionary<string, DateTime> DeserialiseLog(string logName)
+        // Deserialise a log
+        private static SerializableDictionary<string, DateTime> DeserialiseLog(string logName)
         {
             try
             {
@@ -720,7 +726,8 @@ namespace FlashCardsX.ViewModel
             }
         }
 
-        private void SerialiseLog(SerializableDictionary<string, DateTime> log, string logName)
+        // Serialise a log
+        private static void SerialiseLog(SerializableDictionary<string, DateTime> log, string logName)
         {
             using (var outfile = new StreamWriter(Settings.Instance[Settings.LocalPath] + "/" + logName))
             {
@@ -729,11 +736,13 @@ namespace FlashCardsX.ViewModel
             }
         }
 
-        private Dictionary<string, DateTime> MaintainLog(SerializableDictionary<string, DateTime> log)
+        // Maintain a log: Delete every 30 days older
+        private static Dictionary<string, DateTime> MaintainLog(SerializableDictionary<string, DateTime> log)
         {
             return log.Where(x => (DateTime.UtcNow - x.Value).Days < 30).ToDictionary(x => x.Key, x => x.Value);
         }
 
+        // Load data grid with list of decks
         private void LoadDataGrid()
         {
             try
@@ -790,6 +799,7 @@ namespace FlashCardsX.ViewModel
             }
         }
 
+        // Export a deck to PDF
         private void ExportPdf()
         {
             if (SelectedDeck < 0) return;
@@ -797,14 +807,20 @@ namespace FlashCardsX.ViewModel
             var deck = LoadDeck();
             deck = PrepareDeckForTest(deck);
             if (deck == null) return;
+
+            // New PDF doc
             var doc1 =
                 new Document(new Rectangle(Int32.Parse(Settings.Instance[Settings.PdfWidth]),
                     Int32.Parse(Settings.Instance[Settings.PdfHeight])));
             PdfWriter.GetInstance(doc1, new FileStream(path, FileMode.Create));
+
+            // Allow Unicode characters
             var arialFontPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Fonts),
                 "ARIALUNI.TTF");
             var arialBaseFont = BaseFont.CreateFont(arialFontPath, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
             var font = new Font(arialBaseFont);
+
+            // Write to PDF
             doc1.Open();
             for (var i = 0; i < deck.Count; i++)
             {

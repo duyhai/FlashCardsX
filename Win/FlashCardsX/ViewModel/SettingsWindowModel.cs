@@ -256,6 +256,7 @@ namespace FlashCardsX.ViewModel
                 })));
         }
 
+        // Sign in button. Opens authentication page in a mini browser. If already open, cancels.
         private void DropboxSignIn(WebBrowser browser)
         {
             var client = new DropNetClient(Settings.DropboxKey, Settings.DropboxSecret);
@@ -284,6 +285,8 @@ namespace FlashCardsX.ViewModel
                 _dropboxLoggingIn = false;
             }
         }
+
+        // If on correct page of browser. Sign in complete.
         public void DropboxWebBrowser_OnLoadCompleted(object sender, NavigationEventArgs e)
         {
             var browser = (WebBrowser)sender;
@@ -314,10 +317,13 @@ namespace FlashCardsX.ViewModel
 
         #endregion
         
+
+        // An external function used to delete cookies.
         [DllImport("wininet.dll", SetLastError = true)]
         private static extern bool InternetSetOption(IntPtr hInternet, int dwOption, IntPtr lpBuffer, int lpdwBufferLength);
 
-        private void DeleteCookies()
+        // Delete all IE cookies.
+        private static void DeleteCookies()
         {
             unsafe
             {

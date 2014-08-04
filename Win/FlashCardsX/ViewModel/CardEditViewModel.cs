@@ -260,7 +260,8 @@ namespace FlashCardsX.ViewModel
             }
         }
 
-        private StackPanel LoadImage(string code)
+        // Converts text into a flashcard image
+        private static StackPanel LoadImage(string code)
         {
             var resultImage = new StackPanel
             {
@@ -303,6 +304,7 @@ namespace FlashCardsX.ViewModel
             return resultImage;
         }
 
+        // Serialise deck
         private void SaveDeck()
         {
             var serializer = new DataContractSerializer(typeof(Deck));

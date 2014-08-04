@@ -160,6 +160,7 @@ namespace FlashCardsX.ViewModel
             x => true);
         }
 
+        // Switch to next card.
         private void NextCard()
         {
             BVisibility = Visibility.Collapsed;
@@ -203,6 +204,7 @@ namespace FlashCardsX.ViewModel
             }
         }
 
+        // Load a card image
         private void LoadCard()
         {
             TopicAImage = LoadImage(_deck[CurrentCard].TopicA);
@@ -210,7 +212,8 @@ namespace FlashCardsX.ViewModel
             Difficulty = _deck[CurrentCard].Difficulty.ToString();
         }
 
-        private StackPanel LoadImage(string code)
+        // Render a card image from text
+        private static StackPanel LoadImage(string code)
         {
             var resultImage = new StackPanel
             {

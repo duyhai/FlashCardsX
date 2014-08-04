@@ -1,6 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Interop;
-using FlashCardsX.Model;
+﻿using FlashCardsX.Model;
 using FlashCardsX.ViewModel;
 
 namespace FlashCardsX.View

@@ -22,6 +22,8 @@ namespace FlashCardsX.View
             DropboxWebBrowser.LoadCompleted += swm.DropboxWebBrowser_OnLoadCompleted;
             DataContext = swm;
         }
+
+        // Allowing only numbers in a TextBox.
         private void UIElement_OnPreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             if (!Char.IsDigit(e.Text.Last()) && !Char.IsControl(e.Text.Last())) e.Handled = true;
