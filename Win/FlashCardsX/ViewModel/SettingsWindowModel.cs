@@ -166,8 +166,8 @@ namespace FlashCardsX.ViewModel
         {
             try
             {
-                Settings.Instance.SkyDriveAuthClient = new LiveAuthClient(Settings.SkyDriveClientId, Settings.Instance);
-                var loginResult = await Settings.Instance.SkyDriveAuthClient.InitializeAsync(Settings.SkyDriveScope);
+                Settings.Instance.SkyDriveAuthClient = new LiveAuthClient(Settings.Instance.SkyDriveClientId, Settings.Instance);
+                var loginResult = await Settings.Instance.SkyDriveAuthClient.InitializeAsync(Settings.Instance.SkyDriveScope);
                 if (loginResult == null || LiveConnectSessionStatus.Connected != loginResult.Status) return;
 
                 Settings.Instance.SkyDriveClient = new LiveConnectClient(loginResult.Session);
@@ -192,8 +192,8 @@ namespace FlashCardsX.ViewModel
                     browser.Navigate(logoutUrl);
                 }
                 DeleteCookies();
-                Settings.Instance.SkyDriveAuthClient = new LiveAuthClient(Settings.SkyDriveClientId, Settings.Instance);
-                var signInUrl = Settings.Instance.SkyDriveAuthClient.GetLoginUrl(Settings.SkyDriveScope);
+                Settings.Instance.SkyDriveAuthClient = new LiveAuthClient(Settings.Instance.SkyDriveClientId, Settings.Instance);
+                var signInUrl = Settings.Instance.SkyDriveAuthClient.GetLoginUrl(Settings.Instance.SkyDriveScope);
                 browser.Navigate(signInUrl);
                 browser.Visibility = Visibility.Visible;
                 SkyDriveSignInText = "Cancel";
@@ -226,7 +226,6 @@ namespace FlashCardsX.ViewModel
                 {
                     var session = await Settings.Instance.SkyDriveAuthClient.ExchangeAuthCodeAsync(authCode);
                     Settings.Instance.SkyDriveClient = new LiveConnectClient(session);
-                    Settings.Instance[Settings.LastSync] = (new DateTime()).ToString("s");
                     GetSkyDriveUserData();
                 }
             }
@@ -242,7 +241,7 @@ namespace FlashCardsX.ViewModel
         // Get Dropbox user data
         public void GetDropboxUserData()
         {
-            var client = new DropNetClient(Settings.DropboxKey, Settings.DropboxSecret) { UserLogin = Settings.Instance.DropboxLogin };
+            var client = new DropNetClient(Settings.Instance.DropboxKey, Settings.Instance.DropboxSecret) { UserLogin = Settings.Instance.DropboxLogin };
             Settings.Instance.DropboxClient = client;
             client.UseSandbox = true;
             client.AccountInfoAsync(
@@ -259,7 +258,7 @@ namespace FlashCardsX.ViewModel
         // Sign in button. Opens authentication page in a mini browser. If already open, cancels.
         private void DropboxSignIn(WebBrowser browser)
         {
-            var client = new DropNetClient(Settings.DropboxKey, Settings.DropboxSecret);
+            var client = new DropNetClient(Settings.Instance.DropboxKey, Settings.Instance.DropboxSecret);
             Settings.Instance.DropboxClient = client;
             if (!_dropboxLoggingIn)
             {
@@ -302,7 +301,6 @@ namespace FlashCardsX.ViewModel
                         Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
                         {
                             Settings.Instance.DropboxLogin = accessToken;
-                            Settings.Instance[Settings.LastSync] = (new DateTime()).ToString("s");
                             GetDropboxUserData();
                         })),
                     error =>
@@ -378,6 +376,7 @@ namespace FlashCardsX.ViewModel
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged(string propertyName)
         {
+            Settings.Instance[Settings.LastSync] = DateTime.Now.AddMinutes(-6.0).ToString("s");
             var handler = PropertyChanged;
             if (null != handler)
             {

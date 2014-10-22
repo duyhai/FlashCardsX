@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Xml.Serialization;
 using DropNet;
 using DropNet.Models;
@@ -22,10 +23,10 @@ namespace FlashCardsX
         public LiveAuthClient SkyDriveAuthClient;
 
         // Constants for setting up cloud connections
-        public static string SkyDriveClientId = <Enter your own SkyDrive clientID>;
-        public static string[] SkyDriveScope = { "wl.signin", "wl.basic", "wl.skydrive_update", "wl.offline_access" };
-        public static string DropboxKey = <Enter your own Dropbox key>;
-        public static string DropboxSecret = <Enter your own Dropbox secret>;
+        public string SkyDriveClientId = "";
+        public string[] SkyDriveScope = { "wl.signin", "wl.basic", "wl.skydrive_update", "wl.offline_access" };
+        public string DropboxKey = "";
+        public string DropboxSecret = "";
 
         // Constants for settings keys
         public static readonly string
@@ -40,6 +41,27 @@ namespace FlashCardsX
         // Deserialise or initialise on construction.
         private Settings()
         {
+            // Retrieving API keys
+            try
+            {
+                using (var sr = new StreamReader(@"Keys.txt"))
+                {
+                    SkyDriveClientId = sr.ReadLine();
+                    DropboxKey = sr.ReadLine();
+                    DropboxSecret = sr.ReadLine();
+                }
+            }
+            catch (IOException e)
+            {
+                MessageBox.Show(e.Message);
+                MessageBox.Show(@"API keys not found.");
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+                MessageBox.Show(@"Error when loading API keys.");
+            }
+
             // Try retrieving persisted settings.
             try
             {

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dictionary>
+  <item>
+    <key>
+      <string>Decks\KoreanFC_Korean_English.xml</string>
+    </key>
+    <value>
+      <dateTime>2014-07-09T14:12:09.8631597Z</dateTime>
+    </value>
+  </item>
+  <item>
+    <key>
+      <string>Decks\KoreanLanguage_English_Korean.xml</string>
+    </key>
+    <value>
+      <dateTime>2014-07-09T15:24:41.4151886Z</dateTime>
+    </value>
+  </item>
+  <item>
+    <key>
+      <string>Decks\KoreanLanguage_English_English.xml</string>
+    </key>
+    <value>
+      <dateTime>2014-07-24T23:26:58.747431Z</dateTime>
+    </value>
+  </item>
+</dictionary>

@@ -16,14 +16,14 @@
     <Grid>
         <StackPanel Name="SettingsStackPanel" Margin="10" VerticalAlignment="Center">
             <TextBlock Margin="4">Local Path</TextBlock>
-            <TextBox Name="LocalPathTextBox" Text="{Binding LocalPath, Mode=TwoWay}"/>
+            <TextBox Name="LocalPathTextBox" Text="{Binding LocalPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Margin="4">PDF Page Size</TextBlock>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Margin="4">W: </TextBlock>
-                <TextBox VerticalContentAlignment="Center" Width="100" Text="{Binding Path=PdfWidth}" PreviewTextInput="UIElement_OnPreviewTextInput"/>
+                <TextBox VerticalContentAlignment="Center" Width="100" Text="{Binding Path=PdfWidth, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="UIElement_OnPreviewTextInput"/>
                 <TextBlock Margin="4">x</TextBlock>
                 <TextBlock Margin="4">H:</TextBlock>
-                <TextBox VerticalContentAlignment="Center" Width="100" Text="{Binding Path=PdfHeight}" PreviewTextInput="UIElement_OnPreviewTextInput"/>
+                <TextBox VerticalContentAlignment="Center" Width="100" Text="{Binding Path=PdfHeight, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="UIElement_OnPreviewTextInput"/>
             </StackPanel>
             <CheckBox Margin="0, 5, 0, 0" IsChecked="{Binding SkyDrive, Mode=TwoWay}" 
                       Name="SkyDriveCheckBox">

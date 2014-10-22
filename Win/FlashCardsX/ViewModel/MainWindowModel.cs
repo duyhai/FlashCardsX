@@ -232,8 +232,8 @@ namespace FlashCardsX.ViewModel
             }
             try
             {
-                Settings.Instance.SkyDriveAuthClient = new LiveAuthClient(Settings.SkyDriveClientId, Settings.Instance);
-                var loginResult = await Settings.Instance.SkyDriveAuthClient.InitializeAsync(Settings.SkyDriveScope);
+                Settings.Instance.SkyDriveAuthClient = new LiveAuthClient(Settings.Instance.SkyDriveClientId, Settings.Instance);
+                var loginResult = await Settings.Instance.SkyDriveAuthClient.InitializeAsync(Settings.Instance.SkyDriveScope);
                 if (loginResult == null || LiveConnectSessionStatus.Connected != loginResult.Status)
                 {
                     HelpText = "Could not connect to SkyDrive. Please sign in again.";
@@ -474,7 +474,7 @@ namespace FlashCardsX.ViewModel
                 DropboxStatus = Brushes.Red;
                 return;
             }
-            var client = new DropNetClient(Settings.DropboxKey, Settings.DropboxSecret) { UserLogin = Settings.Instance.DropboxLogin };
+            var client = new DropNetClient(Settings.Instance.DropboxKey, Settings.Instance.DropboxSecret) { UserLogin = Settings.Instance.DropboxLogin };
             Settings.Instance.DropboxClient = client;
             client.UseSandbox = true;
             client.AccountInfoAsync(
