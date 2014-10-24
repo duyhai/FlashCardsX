@@ -41,3 +41,7 @@ them if there are any. To check modification date, I use SkyDrive files' descrip
 --------------
 
 For this project I used VS2013. In order to use the Dropbox API you have to request an App folder type API key from https://www.dropbox.com/developers. For the OneDrive API you need a key from http://msdn.microsoft.com/onedrive/ . Then you have to put these keys inside a Keys.txt file inside the Debug/Release folder.
+The content and format of Keys.txt has to be the following (without the brackets):
+[OneDriveClientID]
+[DropboxAppKey]
+[DropboxAppSecret]
