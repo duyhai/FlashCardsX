@@ -22,13 +22,14 @@ To allow logging out of cloud services I had to clear every cookie from IE. (Not
 For syncing purposes I used log files. One which logs the deletion date of files. During each sync the app downloads the latest deletion log from the cloud, if the entry in the log is newer than the file the app has, then the file gets deleted. After that we download the newer deck files, then upload
 them if there are any. To check modification date, I use SkyDrive files' description property and on Dropbox a Changelog. This was necessary since modifying the modification date was not possible.
 
-**Possible improvements for the projects**
+**Possible improvements for the project**
 --------------
 
 -Implement a way to jump to card in deck view.
 -Implement a way to jump to card from testing to edit it.
 -Dynamic difficulty assesment. Based on stats. Maybe make it optional.
 -Better editor for card text
+-Clients for other platforms
 
 **Issues:**
 --------------
