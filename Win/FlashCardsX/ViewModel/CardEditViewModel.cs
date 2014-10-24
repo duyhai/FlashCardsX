@@ -16,6 +16,8 @@ namespace FlashCardsX.ViewModel
 {
     public class CardEditViewModel : INotifyPropertyChanged
     {
+        #region Properties
+
         private readonly Deck _deck;
         private int _currentCard;
         public int CurrentCard
@@ -235,6 +237,7 @@ namespace FlashCardsX.ViewModel
             },
             x => Previewing == Visibility.Visible);
         }
+        #endregion
 
         private void SaveCard()
         {
